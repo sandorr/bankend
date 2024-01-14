@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: '${PROJECT_NAME}_database'
+    environment:
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+    ports:
+      - '${DATABASE_PORT}:5432'
