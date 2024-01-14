@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
+import { TransfersModule } from './transfers/transfers.module';
 
 @Module({
     imports: [
@@ -42,6 +43,7 @@ import { UsersModule } from './users/users.module';
             },
         }),
         AccountsModule,
+        TransfersModule,
     ],
     controllers: [AppController],
     providers: [AppService],
