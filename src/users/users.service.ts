@@ -12,9 +12,15 @@ export class UsersService {
         private usersRepository: Repository<User>,
     ) {}
 
-    async findByUsername(username: string): Promise<User | null> {
+    async findByUsername(username: User['username']): Promise<User | null> {
         return this.usersRepository.findOneBy({
             username,
+        });
+    }
+
+    async findById(id: User['id']): Promise<User | null> {
+        return this.usersRepository.findOneBy({
+            id,
         });
     }
 }

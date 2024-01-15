@@ -7,9 +7,10 @@ import { AccountsModule } from './accounts/accounts.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { Transfer } from './transfers/transfer.entity';
+import { TransfersModule } from './transfers/transfers.module';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
-import { TransfersModule } from './transfers/transfers.module';
 
 @Module({
     imports: [
@@ -36,7 +37,7 @@ import { TransfersModule } from './transfers/transfers.module';
                         databaseSsl === '' ||
                         databaseSsl === 'false'
                     ),
-                    entities: [User, Account],
+                    entities: [User, Account, Transfer],
                     synchronize:
                         configService.get('NODE_ENV') === 'development',
                 };
