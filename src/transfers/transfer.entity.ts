@@ -14,7 +14,7 @@ export class Transfer {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(() => Account, (account) => account.user)
+    @OneToOne(() => Account)
     fromAccount: Account;
 
     @Column()

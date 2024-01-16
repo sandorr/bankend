@@ -11,12 +11,12 @@ import {
 import { User } from '../users/user.entity';
 
 enum CountryCode {
-    DEU,
-    HUN,
+    DEU = 'DEU',
+    HUN = 'HUN',
 }
 
 enum CurrencyCode {
-    EUR,
+    EUR = 'EUR',
 }
 
 @Entity()
@@ -40,7 +40,7 @@ export class Account {
     @Column({ unique: true })
     iban: string;
 
-    @ManyToOne(() => User, (user) => user.accounts)
+    @ManyToOne(() => User)
     user: User;
 
     @CreateDateColumn()

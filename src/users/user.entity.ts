@@ -2,12 +2,9 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-
-import { Account } from '../accounts/account.entity';
 
 @Entity()
 export class User {
@@ -22,9 +19,6 @@ export class User {
 
     @Column({ nullable: true })
     lastLogout: Date;
-
-    @OneToMany(() => Account, (account) => account.user)
-    accounts: Account[];
 
     @CreateDateColumn()
     createdAt: Date;
