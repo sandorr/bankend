@@ -23,4 +23,11 @@ export class UsersService {
             id,
         });
     }
+
+    async updateLastLogout(
+        userId: User['id'],
+        lastLogout: Date | null,
+    ): Promise<void> {
+        await this.usersRepository.update({ id: userId }, { lastLogout });
+    }
 }

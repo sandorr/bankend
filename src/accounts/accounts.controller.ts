@@ -4,13 +4,25 @@ import {
     HttpCode,
     NotFoundException,
     Param,
+    ParseIntPipe,
     Query,
     Request,
+    UseGuards,
 } from '@nestjs/common';
 
-import { IsDecimal, IsIBAN, IsInt, Min } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+    IsDecimal,
+    IsIBAN,
+    IsInt,
+    IsNumber,
+    IsOptional,
+    Min,
+} from 'class-validator';
 import { Request as ExpressRequest } from 'express';
 
+import { AuthGuard } from '../auth/auth.guard';
+import { GetOwnByBalanceResponse, PaginatedResponse } from '../types';
 import { Account } from './account.entity';
 import { AccountsService } from './accounts.service';
 
@@ -19,19 +31,24 @@ class GetByIbanParams {
     iban: string;
 }
 
+// TODO: use decimals for balances
 class GetOwnByBalanceQuery {
-    @IsDecimal({ decimal_digits: '0,2' })
+    @IsOptional()
+    @IsNumber()
     @Min(0)
     minBalance?: number;
 
-    @IsDecimal({ decimal_digits: '0,2' })
+    @IsOptional()
+    @IsNumber()
     maxBalance?: number;
 
+    @IsOptional()
     @IsInt()
     @Min(1)
     page?: number;
 }
 
+@UseGuards(AuthGuard)
 @Controller('accounts')
 export class AccountsController {
     constructor(private accountsService: AccountsService) {}
@@ -41,7 +58,7 @@ export class AccountsController {
     async getOwnByBalance(
         @Request() request: ExpressRequest,
         @Query() query: GetOwnByBalanceQuery,
-    ): Promise<Account[]> {
+    ): Promise<GetOwnByBalanceResponse> {
         const page = query.page ?? 1;
 
         return this.accountsService.findOwnByBalance(

@@ -17,8 +17,8 @@ export class User {
     @Column()
     password: string;
 
-    @Column({ nullable: true })
-    lastLogout: Date;
+    @Column({ type: Date, nullable: true })
+    lastLogout: Date | null;
 
     @CreateDateColumn()
     createdAt: Date;

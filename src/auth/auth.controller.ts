@@ -3,7 +3,6 @@ import {
     Controller,
     Get,
     HttpCode,
-    HttpStatus,
     Post,
     Request,
     UseGuards,
@@ -29,10 +28,17 @@ class SignInDto {
 export class AuthController {
     constructor(private authService: AuthService) {}
 
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(200)
     @Post('login')
     signIn(@Body() signInDto: SignInDto) {
-        return this.authService.signIn(signInDto.username, signInDto.password);
+        return this.authService.login(signInDto.username, signInDto.password);
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(200)
+    @Post('logout')
+    logout(@Request() request: ExpressRequest) {
+        return this.authService.logout(request.user!.id);
     }
 
     @UseGuards(AuthGuard)
