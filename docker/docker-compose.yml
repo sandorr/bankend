@@ -8,3 +8,14 @@ services:
       POSTGRES_PASSWORD: $DATABASE_PASSWORD
     ports:
       - '${DATABASE_PORT}:5432'
+
+#  api:
+#    build: .
+#    container_name: '${PROJECT_NAME}_api'
+#    depends_on:
+#      - database
+#    environment:
+#      - DATABASE_HOST=database
+#      - DATABASE_PORT=5432
+#    ports:
+#      - '3000:3000'
