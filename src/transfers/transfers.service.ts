@@ -30,7 +30,7 @@ export class TransfersService {
         const queryBuilder = this.transfersRepository
             .createQueryBuilder('transfer')
             .innerJoinAndSelect('transfer.fromAccount', 'fromAccount')
-            .innerJoinAndSelect('fromAccount.user', 'fromAccountUser')
+            .innerJoin('fromAccount.user', 'fromAccountUser')
             .where('fromAccountUser.id = :userId', { userId });
 
         if (fromAccount !== undefined) {
