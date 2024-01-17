@@ -7,6 +7,7 @@ It lets you authenticate with a username and password, and then read and update 
 
 A Dockerfile is available for production deployment.
 
+## Commands
 ```sh
 # Install dependencies
 yarn
@@ -16,10 +17,7 @@ yarn docker:up
 yarn seed
 # Start the application in development mode
 yarn start:dev
-```
 
-## Other commands available
-```sh
 # Stop and remove the database container
 # WARNING: This will delete all data
 yarn docker:down
