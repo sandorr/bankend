@@ -22,7 +22,7 @@
     "docker:up": "yarn docker up -d",
     "docker:stop": "yarn docker stop",
     "docker:down": "yarn docker down",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
