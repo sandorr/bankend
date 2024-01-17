@@ -2,6 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -14,6 +15,7 @@ export class Transfer {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @JoinColumn()
     @OneToOne(() => Account)
     fromAccount: Account;
 
@@ -29,8 +31,8 @@ export class Transfer {
     @Column({ type: 'decimal' })
     amount: number;
 
-    @Column({ nullable: true })
-    reference: string;
+    @Column({ type: String, nullable: true })
+    reference: string | null;
 
     @CreateDateColumn()
     createdAt: Date;

@@ -2,27 +2,19 @@ import {
     Controller,
     Get,
     HttpCode,
+    HttpStatus,
     NotFoundException,
     Param,
-    ParseIntPipe,
     Query,
     Request,
     UseGuards,
 } from '@nestjs/common';
 
-import { Transform } from 'class-transformer';
-import {
-    IsDecimal,
-    IsIBAN,
-    IsInt,
-    IsNumber,
-    IsOptional,
-    Min,
-} from 'class-validator';
+import { IsIBAN, IsInt, IsNumber, IsOptional, Min } from 'class-validator';
 import { Request as ExpressRequest } from 'express';
 
 import { AuthGuard } from '../auth/auth.guard';
-import { GetOwnByBalanceResponse, PaginatedResponse } from '../types';
+import { GetOwnAccountsByBalanceResponse } from '../types';
 import { Account } from './account.entity';
 import { AccountsService } from './accounts.service';
 
@@ -53,12 +45,12 @@ class GetOwnByBalanceQuery {
 export class AccountsController {
     constructor(private accountsService: AccountsService) {}
 
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     @Get()
     async getOwnByBalance(
         @Request() request: ExpressRequest,
         @Query() query: GetOwnByBalanceQuery,
-    ): Promise<GetOwnByBalanceResponse> {
+    ): Promise<GetOwnAccountsByBalanceResponse> {
         const page = query.page ?? 1;
 
         return this.accountsService.findOwnByBalance(
@@ -69,7 +61,7 @@ export class AccountsController {
         );
     }
 
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     @Get('/:iban')
     async getByIban(
         @Request() request: ExpressRequest,

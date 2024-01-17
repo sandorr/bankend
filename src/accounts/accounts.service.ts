@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { GetOwnByBalanceResponse } from '../types';
+import { GetOwnAccountsByBalanceResponse } from '../types';
 import { User } from '../users/user.entity';
 import { Account } from './account.entity';
 
@@ -19,7 +19,7 @@ export class AccountsService {
         minBalance: Account['balance'] | undefined,
         maxBalance: Account['balance'] | undefined,
         page: number,
-    ): Promise<GetOwnByBalanceResponse> {
+    ): Promise<GetOwnAccountsByBalanceResponse> {
         const pageSize = 10;
         const queryBuilder = this.accountsRepository
             .createQueryBuilder('account')

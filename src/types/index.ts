@@ -1,4 +1,5 @@
 import { Account } from '../accounts/account.entity';
+import { Transfer } from '../transfers/transfer.entity';
 
 export type PaginatedResponse<T> = {
     data: T;
@@ -9,7 +10,9 @@ export type PaginatedResponse<T> = {
     };
 };
 
-export type GetOwnByBalanceResponse = PaginatedResponse<{
+export type GetOwnAccountsByBalanceResponse = PaginatedResponse<{
     accounts: Account[];
     totalBalance: number;
 }>;
+
+export type GetOwnTransfersResponse = PaginatedResponse<Transfer[]>;

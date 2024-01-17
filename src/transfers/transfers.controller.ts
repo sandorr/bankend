@@ -5,16 +5,19 @@ import {
     HttpCode,
     HttpStatus,
     Post,
+    Query,
     Request,
     UseGuards,
 } from '@nestjs/common';
 
 import {
-    IsDecimal,
     IsIBAN,
     IsInt,
     IsNotEmpty,
+    IsNumber,
+    IsOptional,
     IsString,
+    IsUUID,
     Min,
 } from 'class-validator';
 import { Request as ExpressRequest } from 'express';
@@ -24,15 +27,26 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Transfer } from './transfer.entity';
 import { TransfersService } from './transfers.service';
 
-export class TransferCreationDto {
+class GetOwnQueryDto {
+    @IsOptional()
+    @IsUUID()
+    fromAccount?: Account['id'];
+
+    @IsOptional()
     @IsInt()
     @Min(1)
+    page?: number;
+}
+
+export class CreateDto {
+    @IsUUID()
     fromAccount: Account['id'];
 
     @IsString()
     @IsNotEmpty()
     toName: Transfer['toName'];
 
+    // TODO: validate BIC
     @IsString()
     @IsNotEmpty()
     toBic: Transfer['toBic'];
@@ -40,34 +54,36 @@ export class TransferCreationDto {
     @IsIBAN()
     toIban: Transfer['toIban'];
 
-    @IsDecimal({ decimal_digits: '2' })
+    @IsNumber()
     @Min(0.01)
     amount: Transfer['amount'];
 
+    @IsOptional()
     @IsString()
-    reference: Transfer['reference'];
+    @IsNotEmpty()
+    reference?: Transfer['reference'];
 }
 
-@Controller('transfers')
 @UseGuards(AuthGuard)
+@Controller('transfers')
 export class TransfersController {
     constructor(private transfersService: TransfersService) {}
 
     @HttpCode(HttpStatus.OK)
     @Get()
-    getAll(@Request() request: ExpressRequest) {
-        return this.transfersService.findOwn(request.user!.id);
+    getOwn(@Request() request: ExpressRequest, @Query() query: GetOwnQueryDto) {
+        const page = query.page ?? 1;
+
+        return this.transfersService.findOwn(
+            request.user!.id,
+            query.fromAccount,
+            page,
+        );
     }
 
     @HttpCode(HttpStatus.CREATED)
     @Post()
-    create(
-        @Request() request: ExpressRequest,
-        @Body() transferCreationDto: TransferCreationDto,
-    ) {
-        return this.transfersService.create(
-            request.user!.id,
-            transferCreationDto,
-        );
+    create(@Request() request: ExpressRequest, @Body() createDto: CreateDto) {
+        return this.transfersService.create(request.user!.id, createDto);
     }
 }
